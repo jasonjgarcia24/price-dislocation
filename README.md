@@ -1,4 +1,4 @@
 # fintech-analytics-toolbox
-My UC Berkeley Fintech bootcamp repo for challenge submissions.
+My Fintech analytics toolbox.
 
-![alt tag](images/github_01.png)
+<img src="img/github_01.png" title="jasonjgarcia24" />
