@@ -6,14 +6,14 @@ This is a command line application to match applicants with qualifying loans.
 Example:
     $ python app.py
 """
-from io import FileIO
-import os
 import sys
 import fire
 import questionary
 
+from io import FileIO
 from pathlib import Path
-from qualifier.utils.fileio import load_csv, write_csv
+from validators.filetype_validator import csv_validator
+from qualifier.utils.fileio import load_csv, save_csv
 from qualifier.utils.calculators import (
     calculate_monthly_debt_ratio,
     calculate_loan_to_value_ratio,
@@ -32,7 +32,7 @@ def load_bank_data():
         The bank data from the data rate sheet CSV file.
     """
     # csvpath = questionary.text("Enter a file path to a rate-sheet (.csv):").ask()
-    csvpath = 'qualifier\data\daily_rate_sheet.csv'
+    csvpath = '.\data\daily_rate_sheet.csv'
     csvpath = Path(csvpath)
     if not csvpath.exists():
         sys.exit(f"Oops! Can't find this path: {csvpath}")
@@ -134,7 +134,7 @@ def save_qualifying_loans(qualifying_loans):
             "name":     "save_where",
             "message":  "Where do you want to save your qualifying bank loans?",
             "when"   :  lambda x: True if x["save_where"] == choices[-1] else False,
-            "validate": lambda x: True if os.path.split(x)[-1].endswith(".csv") else "Please enter a file with extension '.csv'",
+            "validate": csv_validator,
         }
     ]
 
@@ -143,7 +143,7 @@ def save_qualifying_loans(qualifying_loans):
     # If the user chooses to save, perform the following:
     if csv_query and csv_query["save_question"]:
         csvpath = csv_query["save_where"]
-        write_csv(csvpath, qualifying_loans)
+        save_csv(csvpath, qualifying_loans)
         return
 
     # Otherwise, do not save the csv results.

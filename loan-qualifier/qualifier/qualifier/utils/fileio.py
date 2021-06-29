@@ -31,11 +31,13 @@ def load_csv(csvpath):
     return data
 
 
-def write_csv(csvpath, data):
+def save_csv(csvpath, data):
     """Writes the CSV file from path provided.
 
     Args:
-        csvpath (Path): The csv file path.
+        csvpath (str): The csv file path.
+        data (list): A list that contains the rows of data from for the CSV
+        file.
 
     Returns:
         No return.
@@ -45,4 +47,6 @@ def write_csv(csvpath, data):
     with open(csvpath, mode='w', newline='') as data_file:
         data_writer = csv.writer(data_file, delimiter=',')
         data_writer.writerows(data)
+
+    return True
 
