@@ -12,7 +12,7 @@ import questionary
 
 from io import FileIO
 from pathlib import Path
-from validators.filetype_validator import csv_validator
+from qualifier.utils.validators.filetype_validator import csv_validator
 from qualifier.utils.fileio import load_csv, save_csv
 from qualifier.utils.calculators import (
     calculate_monthly_debt_ratio,
