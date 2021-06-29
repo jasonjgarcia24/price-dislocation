@@ -6,22 +6,23 @@ This is a command line application to match applicants with qualifying loans.
 Example:
     $ python app.py
 """
+from io import FileIO
+import os
 import sys
 import fire
 import questionary
+
 from pathlib import Path
-
-from qualifier.utils.fileio import load_csv
-
+from qualifier.utils.fileio import load_csv, write_csv
 from qualifier.utils.calculators import (
     calculate_monthly_debt_ratio,
     calculate_loan_to_value_ratio,
 )
 
-from qualifier.filters.max_loan_size import filter_max_loan_size
-from qualifier.filters.credit_score import filter_credit_score
+from qualifier.filters.max_loan_size  import filter_max_loan_size
+from qualifier.filters.credit_score   import filter_credit_score
 from qualifier.filters.debt_to_income import filter_debt_to_income
-from qualifier.filters.loan_to_value import filter_loan_to_value
+from qualifier.filters.loan_to_value  import filter_loan_to_value
 
 
 def load_bank_data():
@@ -30,8 +31,8 @@ def load_bank_data():
     Returns:
         The bank data from the data rate sheet CSV file.
     """
-
-    csvpath = questionary.text("Enter a file path to a rate-sheet (.csv):").ask()
+    # csvpath = questionary.text("Enter a file path to a rate-sheet (.csv):").ask()
+    csvpath = 'qualifier\data\daily_rate_sheet.csv'
     csvpath = Path(csvpath)
     if not csvpath.exists():
         sys.exit(f"Oops! Can't find this path: {csvpath}")
@@ -46,17 +47,18 @@ def get_applicant_info():
         Returns the applicant's financial information.
     """
 
-    credit_score = questionary.text("What's your credit score?").ask()
-    debt = questionary.text("What's your current amount of monthly debt?").ask()
-    income = questionary.text("What's your total monthly income?").ask()
-    loan_amount = questionary.text("What's your desired loan amount?").ask()
-    home_value = questionary.text("What's your home value?").ask()
+    credit_score, debt, income, loan_amount, home_value = '805', '3000', '125000', '10000', '500000'
+    # credit_score = questionary.text("What's your credit score?").ask()
+    # debt         = questionary.text("What's your current amount of monthly debt?").ask()
+    # income       = questionary.text("What's your total monthly income?").ask()
+    # loan_amount  = questionary.text("What's your desired loan amount?").ask()
+    # home_value   = questionary.text("What's your home value?").ask()
 
     credit_score = int(credit_score)
-    debt = float(debt)
-    income = float(income)
-    loan_amount = float(loan_amount)
-    home_value = float(home_value)
+    debt         = float(debt)
+    income       = float(income)
+    loan_amount  = float(loan_amount)
+    home_value   = float(home_value)
 
     return credit_score, debt, income, loan_amount, home_value
 
@@ -109,7 +111,43 @@ def save_qualifying_loans(qualifying_loans):
         qualifying_loans (list of lists): The qualifying bank loans.
     """
     # @TODO: Complete the usability dialog for savings the CSV Files.
-    # YOUR CODE HERE!
+    # YOUR CODE HERE!    
+    # Quick and easy selections first.
+    choices   = ['./results.csv', 'let me tell you']
+    questions = [
+        {
+            "type":    "confirm",
+            "name":    "save_question",
+            "message": "Would you like to save your qualifying loans?",
+        },
+        {
+            "type":        "rawselect",
+            "name":        "save_where",
+            "message":     "Where do you want to save your qualifying bank loans?",
+            "choices":     choices,
+            "instruction": "(select '1' for default)",
+            "when":        lambda x: x["save_question"],
+        },
+        {
+            "type":     "path",
+            # Intentionally overwrites result from previous question.
+            "name":     "save_where",
+            "message":  "Where do you want to save your qualifying bank loans?",
+            "when"   :  lambda x: True if x["save_where"] == choices[-1] else False,
+            "validate": lambda x: True if os.path.split(x)[-1].endswith(".csv") else "Please enter a file with extension '.csv'",
+        }
+    ]
+
+    csv_query = questionary.prompt(questions)
+
+    # If the user chooses to save, perform the following:
+    if csv_query and csv_query["save_question"]:
+        csvpath = csv_query["save_where"]
+        write_csv(csvpath, qualifying_loans)
+        return
+
+    # Otherwise, do not save the csv results.
+    print("Ok! Your data was not saved.")
 
 
 def run():
@@ -125,6 +163,11 @@ def run():
     qualifying_loans = find_qualifying_loans(
         bank_data, credit_score, debt, income, loan_amount, home_value
     )
+
+    # Prompt the user that there are no qualifying loans and exit the program.
+    if not qualifying_loans:
+        print("Sorry! You do not have any qualifying loans.")
+        return
 
     # Save qualifying loans
     save_qualifying_loans(qualifying_loans)
