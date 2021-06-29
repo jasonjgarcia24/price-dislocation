@@ -10,7 +10,7 @@
 [Bottom of Page](#Bottom-of-Page)<br>
 ***
 ## <a id="Project-Description">Project Description</a>
-This project is provides automated calculations for loan portfolio summaries.
+This project provides automated calculations for loan portfolio summaries.
 
 #### A summary of what's under the hood:
 We start with some fundamental calculations on a list of prices for given loans.
@@ -20,8 +20,8 @@ We start with some fundamental calculations on a list of prices for given loans.
 4. A summary of the calculations of interest will be printed.
 ***
 ## <a id="Technologies">Technologies</a>
-<a href="https://docs.python.org/release/3.7.10/"><img src="https://img.shields.io/badge/python-3.7.10%2B-blue">
-<a href="https://jupyter-notebook.readthedocs.io/en/stable/"><img src="https://img.shields.io/badge/jupyter--notebook-6.4.0-yellowgreen"></a>
+<a href="https://docs.python.org/release/3.7.10/"><img src="https://img.shields.io/badge/python-3.7.10%2B-green">
+<a href="https://jupyter-notebook.readthedocs.io/en/stable/"><img src="https://img.shields.io/badge/jupyter--notebook-6.4.0-blue"></a>
 ***
 ## <a id="Installation-Guide">Installation Guide</a>
 <a href="https://github.com/jasonjgarcia24/fintech-analytics-toolbox">fintech-analytics-toolbox</a> distribution in the works...<br>
