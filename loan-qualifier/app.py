@@ -34,6 +34,11 @@ app_path  = os.path.dirname(os.path.realpath(__file__))
 prnt_path = os.path.dirname(app_path)
 full_path  = lambda file_path: f"{prnt_path}\\{file_path}".replace(prnt_path, ".")
 
+no_action_str          = "Ok! No action has been taken."
+no_income_str          = "Sorry! You need a monthly income for qualifying loans."
+no_qualifying_loan_str = "Sorry! You do not have any qualifying loans."
+no_save_str            = "Ok! Your data was not saved."
+
 
 def load_bank_data():
     """Ask for the file path to the latest banking data and load the CSV file.
@@ -67,16 +72,15 @@ def load_bank_data():
 
     csvquery = questionary.prompt(questions)
 
-    # If th user chooses to not continue, exit:
-    if not csvquery:
-        print("Ok! Nothing was read nor saved.")
-        return []
+    # If the user chooses to not continue, exit:
+    if not csvquery: return None
 
     # If the user chooses to continue, perform the following:
     csvpath = Path(csvquery['read_where'])        
     csvdata = load_csv(csvpath)
     
     return csvdata
+
 
 def get_applicant_info():
     """Prompt dialog to get the applicant's financial information.
@@ -98,42 +102,47 @@ def get_applicant_info():
             "type":    "text",
             "name":    "credit_score",
             "message": "What's your credit score?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive numeric number.",
+            "validate": lambda x: True if x.isnumeric() and 0 <= int(x) <= 850 else "Please enter a positive number between 0 and 850.",
             "filter":   lambda x: int(x),
         },
         {
             "type":    "text",
             "name":    "debt",
             "message": "What's your current amount of monthly debt?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive numeric number.",
+            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number.",
             "filter":   lambda x: float(x),
         },
         {
             "type":    "text",
             "name":    "income",
             "message": "What's your total monthly income?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive numeric number.",
+            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number.",
             "filter":   lambda x: float(x),
         },
         {
             "type":    "text",
             "name":    "loan_amount",
             "message": "What's your desired loan amount?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive numeric number.",
+            "validate": lambda x: True if x.isnumeric() and int(x) != 0 else "Please enter a positive non-zero number.",
             "filter":   lambda x: float(x),
         },
         {
             "type":    "text",
             "name":    "home_value",
             "message": "What's your home value?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive numeric number.",
+            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number.",
             "filter":   lambda x: float(x),
         },
     ]
 
     requestor_details = questionary.prompt(questions)
 
+    # If the user chooses to not continue, exit:
+    if not requestor_details:
+        return [None] * 5
+
     credit_score, debt, income, loan_amount, home_value = requestor_details.values()
+    # credit_score, debt, income, loan_amount, home_value = [850, 1000, 10000, 10000, 100000]
 
     return credit_score, debt, income, loan_amount, home_value
 
@@ -189,7 +198,7 @@ def save_qualifying_loans(qualifying_loans):
     """
     # Query the user's file save preferences via CLI:
     choices   = [full_path("data\\output.csv"), 'let me tell you']
-    questions = [
+    questions_round1 = [
         {
             "type":    "confirm",
             "name":    "save_question",
@@ -212,42 +221,63 @@ def save_qualifying_loans(qualifying_loans):
             "validate": csv_ext_validator,
         },
         {
-            "type":     "confirm",
-            "name":     "are_you_sure",
-            "message":  "This file already exists. Do you want to overwrite it?",
-            "when"   :  lambda x: Path(x["save_where"]).exists(),
+            "type":    "confirm",
+            "name":    "are_you_sure",
+            "message": "This file already exists. Do you want to overwrite it?",
+            "when"   : lambda x: True if x["save_question"] and Path(x["save_where"]).exists() else False,
         },
+    ]
+
+    questions_round2 = [
         {
             "type":     "path",
-            # Intentionally overwrites result from previous question.
             "name":     "save_where",
-            "message":  "Where do you want to save your qualifying bank loans?",
-            "when"   :  lambda x: True if x["save_question"] and not x["are_you_sure"] else False,
+            "message":  "Where do you want to save your qualifying bank loans? (Enter a unique filename)",
             "validate": csv_no_overwrite_validator,
         },
     ]
 
-    csvquery = questionary.prompt(questions)
+    csvquery = questionary.prompt(questions_round1)
+
+    # If the user chooses to not continue, exit:
+    if not csvquery or not csvquery["save_question"]:
+        return False
+
+    # If the user chooses to not override an existing file, they will be prompt to 
+    # input a unique file:
+    if not "are_you_sure" in csvquery or not csvquery["are_you_sure"] :
+        csvquery = questionary.prompt(questions_round2)
+
+    # If the user chooses to not continue, exit: 
+    if not csvquery:
+        return False
 
     # If the user chooses to save, perform the following:
-    if csvquery and csvquery["save_question"]:
-        csvpath = csvquery["save_where"]
-        save_csv(csvpath, qualifying_loans)
-        return
-
-    # Otherwise, do not save the csv results.
-    print("Ok! Your data was not saved.")
-
+    csvpath = csvquery["save_where"]
+    save_csv(csvpath, qualifying_loans)
+    
+    return True
+    
 
 def run():
     """The main function for running the script."""
 
     # Load the latest Bank data
     bank_data = load_bank_data()
-    if not bank_data: return
+    if not bank_data:        
+        print(no_action_str)
+        return
 
     # Get the applicant's information
-    credit_score, debt, income, loan_amount, home_value = get_applicant_info()
+    credit_score, debt, income, loan_amount, home_value = get_applicant_info()    
+    if not any([credit_score, debt, income, loan_amount, home_value]):
+        print(no_action_str)
+        return
+    
+    # Prompt the user that there are no qualifying loans and exit the program.
+    if not income:
+        print(no_income_str)
+        return
 
     # Find qualifying loans
     qualifying_loans = find_qualifying_loans(
@@ -256,11 +286,14 @@ def run():
 
     # Prompt the user that there are no qualifying loans and exit the program.
     if not qualifying_loans:
-        print("Sorry! You do not have any qualifying loans.")
+        print(no_qualifying_loan_str)
         return
 
     # Save qualifying loans
-    save_qualifying_loans(qualifying_loans)
+    save_status = save_qualifying_loans(qualifying_loans)
+    if not save_status:
+        print(no_save_str)
+        return
 
 
 if __name__ == "__main__":

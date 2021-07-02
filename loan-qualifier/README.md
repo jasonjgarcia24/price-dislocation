@@ -23,7 +23,7 @@ We start with some fundamental calculations on a list of prices for given loans.
 #### Unit testing:
 To perform unit testing, at the root path run `pytest tests` or simply `pytest`.
 
-#### Layout:
+#### Project layout:
 <p><a href="tree.txt"><img src="img/project_tree.png" title="loan-qualifier project tree"></a></p>
 
 ***
