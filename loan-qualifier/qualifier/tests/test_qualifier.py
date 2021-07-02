@@ -35,26 +35,6 @@ test_path = os.path.dirname(os.path.realpath(__file__))
 prnt_path = os.path.dirname(test_path)
 
 
-def test_calculators():
-    ''' PyTest function for testing all functions in the qualifier.utils.calculators
-        module.
-
-        TESTED FUNCTIONS:
-            - calculators.calculate_monthly_debt_ratio()
-            - calculators.calculate_loan_to_value_ratio()
-    '''
-    def test_calculate_monthly_debt_ratio():
-        assert calculators.calculate_monthly_debt_ratio(1500, 4000) == 0.375
-        assert calculators.calculate_monthly_debt_ratio(1500, 4000) != 0.370
-
-    def test_calculate_loan_to_value_ratio():
-        assert calculators.calculate_loan_to_value_ratio(210000, 250000) == 0.84
-        assert calculators.calculate_loan_to_value_ratio(210000, 250000) != 0.80
-
-    test_calculate_monthly_debt_ratio()
-    test_calculate_loan_to_value_ratio()
-
-
 def test_filters():
     ''' PyTest function for testing all modules' functions in the qualifier.filters
         internal library.
@@ -78,56 +58,60 @@ def test_filters():
 
     def test_filter_credit_score():
         # credit_score >= bank_data[4]
-        test_bank_data = [[0, 0, 0, 0, current_credit_score]]       # Tests for ==      --TRUE case
-        assert filter_credit_score(current_credit_score,   test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, 0, 0, 0, current_credit_score+1]]     # Tests for >      --TRUE case
-        assert filter_credit_score(current_credit_score+1, test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, 0, 0, 0, current_credit_score+1]]     # Tests for <      --FALSE case
-        assert filter_credit_score(current_credit_score, test_bank_data) != test_bank_data
+        test_bank_data = [[0, 0, 0, 0, current_credit_score],       # Tests for ==  --TRUE case
+                          [0, 0, 0, 0, current_credit_score-1],     # Tests for >   --TRUE case
+                          [0, 0, 0, 0, current_credit_score+1]]     # Tests for <   --FALSE case
+        assert filter_credit_score(current_credit_score, test_bank_data) == test_bank_data[0:2]
 
 
     def test_debt_to_income():
         # monthly_debt_ratio <= bank_data[3]
-        test_bank_data = [[0, 0, 0, dti_ratio]]     # Tests for ==      --TRUE case
-        assert filter_debt_to_income(dti_ratio,   test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, 0, 0, dti_ratio-1]]   # Tests for <       --TRUE case
-        assert filter_debt_to_income(dti_ratio-1, test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, 0, 0, dti_ratio-1]]   # Tests for >       --FALSE case
-        assert filter_debt_to_income(dti_ratio, test_bank_data) != test_bank_data
+        test_bank_data = [[0, 0, 0, dti_ratio],                     # Tests for ==  --TRUE case
+                          [0, 0, 0, dti_ratio+0.1],                 # Tests for <   --TRUE case
+                          [0, 0, 0, dti_ratio-0.1]]                 # Tests for >   --FALSE case
+        assert filter_debt_to_income(dti_ratio, test_bank_data) == test_bank_data[0:2]
 
 
     def test_loan_to_value():
         # loan_to_value_ratio <= bank_data[2]
-        test_bank_data = [[0, 0, ltv_ratio]]        # Tests for ==      --TRUE case
-        assert filter_loan_to_value(ltv_ratio,   test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, 0, ltv_ratio-1]]      # Tests for <      --TRUE case
-        assert filter_loan_to_value(ltv_ratio-1, test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, 0, ltv_ratio-1]]      # Tests for >      --FALSE case
-        assert filter_loan_to_value(ltv_ratio, test_bank_data) != test_bank_data
+        test_bank_data = [[0, 0, ltv_ratio],                        # Tests for ==  --TRUE case
+                          [0, 0, ltv_ratio+0.1],                    # Tests for <   --TRUE case
+                          [0, 0, ltv_ratio-0.1]]                    # Tests for >   --FALSE case
+        assert filter_loan_to_value(ltv_ratio, test_bank_data) == test_bank_data[0:2]
 
     
     def test_max_loan_size():
         # loan_amount <= bank_data[1]
-        test_bank_data = [[0, loan]]        # Tests for ==      --TRUE case
-        assert filter_max_loan_size(loan,   test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, loan-1]]      # Tests for <      --TRUE case
-        assert filter_max_loan_size(loan-1, test_bank_data) == test_bank_data
-
-        test_bank_data = [[0, loan-1]]      # Tests for >      --FALSE case
-        assert filter_max_loan_size(loan, test_bank_data) != test_bank_data
+        test_bank_data = [[0, loan],                                # Tests for ==  --TRUE case
+                          [0, loan+1],                              # Tests for <   --TRUE case
+                          [0, loan-1]]                              # Tests for >   --FALSE case
+        assert filter_max_loan_size(loan, test_bank_data) == test_bank_data[0:2]
 
 
     test_filter_credit_score()
     test_debt_to_income()
     test_loan_to_value()
     test_max_loan_size()
+
+
+def test_calculators():
+    ''' PyTest function for testing all functions in the qualifier.utils.calculators
+        module.
+
+        TESTED FUNCTIONS:
+            - calculators.calculate_monthly_debt_ratio()
+            - calculators.calculate_loan_to_value_ratio()
+    '''
+    def test_calculate_monthly_debt_ratio():
+        assert calculators.calculate_monthly_debt_ratio(1500, 4000) == 0.375
+        assert calculators.calculate_monthly_debt_ratio(1500, 4000) != 0.370
+
+    def test_calculate_loan_to_value_ratio():
+        assert calculators.calculate_loan_to_value_ratio(210000, 250000) == 0.84
+        assert calculators.calculate_loan_to_value_ratio(210000, 250000) != 0.80
+
+    test_calculate_monthly_debt_ratio()
+    test_calculate_loan_to_value_ratio()
 
 
 def test_fileio():
