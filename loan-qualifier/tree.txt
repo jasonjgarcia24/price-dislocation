@@ -1,0 +1,29 @@
+.
+├── README.md
+├── app.py
+├── data
+│   ├── daily_rate_sheet.csv
+│   └── output.csv
+├── img
+│   └── project_tree.png
+├── qualifier
+│   ├── filters
+│   │   ├── credit_score.py
+│   │   ├── debt_to_income.py
+│   │   ├── loan_to_value.py
+│   │   └── max_loan_size.py
+│   ├── utils
+│   │   ├── calculators.py
+│   │   ├── fileio.py
+│   │   ├── list_files.py
+│   │   └── validators.py
+├── requirements.txt
+├── tests
+│   ├── data
+│   │   ├── input
+│   │   │   └── test_data.csv
+│   │   └── output
+│   │       └── test_data.csv
+│   ├── test_qualifier.py
+│   └── __init__.py
+└── tree.txt

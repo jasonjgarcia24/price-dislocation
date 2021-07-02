@@ -5,7 +5,7 @@ This module allows you to use the standard python assert for verifying expectati
 within the loan-qualifier app.
 
 Example:
-    $ pytest qualifier/tests/
+    $ pytest tests
 
     OR
 
@@ -150,7 +150,9 @@ def test_validators():
         module.
 
         TESTED FUNCTIONS:
-            - validators.csv_validator()
+            - validators.test_csv_ext_validator()
+            - validators.test_csv_exist_validator()
+            - validators.csv_no_overwrite_validator()
             - validators.prnt_path_validator()
     '''
     def test_csv_ext_validator():
@@ -164,10 +166,17 @@ def test_validators():
         assert validators.csv_exist_validator(f"{test_path}\\data\\input\\test_data.bad") != True
         assert validators.csv_exist_validator(f"{test_path}\\data\\input\\no_file.csv")   != True
 
+    def test_csv_no_overwrite_validator():
+        # IMPORTANT: Do not delete f"{test_path}\\data\\input\\test_data.csv". If it is removed,
+        # this test will FAIL.
+        assert validators.csv_no_overwrite_validator(f"{test_path}\\data\\input\\test_data.csv") != True
+        assert validators.csv_no_overwrite_validator(f"{test_path}\\data\\input\\no_file.csv")   == True
+
     def test_path_validator():
         assert validators.prnt_path_validator(f"{test_path}\\data\\input\\")      == True
         assert validators.prnt_path_validator(f"{test_path}\\data\\not_a_path\\") != True
 
     test_csv_ext_validator()
     test_csv_exist_validator()
+    test_csv_no_overwrite_validator()
     test_path_validator()
