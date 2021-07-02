@@ -243,9 +243,13 @@ def save_qualifying_loans(qualifying_loans):
     if not csvquery or not csvquery["save_question"]:
         return False
 
+    # If we made it here, the filename was unique and this was never asked:
+    if not "are_you_sure" in csvquery:
+        csvquery["are_you_sure"] = True
+
     # If the user chooses to not override an existing file, they will be prompt to 
     # input a unique file:
-    if not "are_you_sure" in csvquery or not csvquery["are_you_sure"] :
+    if not csvquery["are_you_sure"] :
         csvquery = questionary.prompt(questions_round2)
 
     # If the user chooses to not continue, exit: 

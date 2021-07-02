@@ -21,8 +21,7 @@ We start with some fundamental calculations on a list of prices for given loans.
  - If there are no qualifying loans, the qualifier program will notify the user and exit, given there is nothing to save.
 
 #### Unit testing:
-To perform unit testing, at the root path run `pytest tests` or simply `pytest`.
-
+Unit testing is performed on all modules contained within the loan-qualifier projectTo perform unit testing, at the root path run `pytest tests` or simply `pytest`.<br>
 #### Project layout:
 <p><a href="tree.txt"><img src="img/project_tree.png" title="loan-qualifier project tree"></a></p>
 
@@ -36,24 +35,24 @@ To perform unit testing, at the root path run `pytest tests` or simply `pytest`.
 <a href="requirements.txt" title="requirements.txt">Requirements List</a>
 ***
 ## Installation Guide<a id="Installation-Guide">
-<a href="https://github.com/jasonjgarcia24/fintech-analytics-toolbox">fintech-analytics-toolbox</a> distribution in the works...<br>
+<a href="https://github.com/jasonjgarcia24/fintech-analytics-toolbox" title="github.com/jasonjgarcia24/fintech-analytics-toolbox">fintech-analytics-toolbox</a> distribution in the works...<br>
     
-<center><img src="https://media.giphy.com/media/k7LxZAzC9V70s/giphy.gif" /></center>
+<center><img src="https://media.giphy.com/media/k7LxZAzC9V70s/giphy.gif" title="pink ice chest is best"/></center>
 
 ***
 ## Usage<a id="Usage">
-Run loan-analyzer with `python loan-qualifier.py`. No input variables are required, and the below image displays the expected terminal output:<br>
-<center><img src="img/python_loan-qualifier.png" title="Terminal results of loan-qualifier.py" /></center><br>
+Run loan-analyzer with `python app.py`. No input variables are required in calling loan-qualifier app, however user CLI inputs are required. The below image displays the expected terminal prompts with user inputs:<br>
+<center><img src="img/appy_terminal_run_input.png" title="Terminal results of loan-qualifier.py" /></center><br>
 
 The expected .csv output is shown below:<br>
-<center><img src="img/loan-qualifier_output-csv.png" title="CSV results of loan-qualifier.py" /></center>
+<center><img src="img/appy_terminal_run_output.png" title="CSV results of loan-qualifier.py" /></center>
 
 ***
 ## Contributors<a id="Contributors">
 Currently just me :)<br>
 ***
 ## License<a id="License">
-Each file included in this repository is licensed under the <a href="https://github.com/jasonjgarcia24/fintech-analytics-toolbox/blob/main/LICENSE">MIT License.</a>
+Each file included in this repository is licensed under the <a href="https://github.com/jasonjgarcia24/fintech-analytics-toolbox/blob/main/LICENSE" title="github.com/jasonjgarcia24/fintech-analytics-toolbox/blob/main/LICENSE">MIT License.</a>
 ***
 [Top of Page](#Top-of-Page)<br>
 [Contents](#Contents)<br>
