@@ -162,15 +162,15 @@ def test_validators():
     def test_csv_exist_validator():
         # IMPORTANT: Do not delete f"{test_path}\\data\\input\\test_data.csv". If it is removed,
         # this test will FAIL.
-        assert validators.csv_exist_validator(f"{test_path}\\data\\input\\test_data.csv") == True
-        assert validators.csv_exist_validator(f"{test_path}\\data\\input\\test_data.bad") != True
-        assert validators.csv_exist_validator(f"{test_path}\\data\\input\\no_file.csv")   != True
+        assert validators.csv_exist_validator(f"{test_path}\\data\\input\\test_data.csv")  == True
+        assert validators.csv_exist_validator(f"{test_path}\\data\\input\\test_data.bad")  != True
+        assert validators.csv_exist_validator(f"{test_path}\\data\\input\\not_a_file.csv") != True
 
     def test_csv_no_overwrite_validator():
         # IMPORTANT: Do not delete f"{test_path}\\data\\input\\test_data.csv". If it is removed,
         # this test will FAIL.
-        assert validators.csv_no_overwrite_validator(f"{test_path}\\data\\input\\test_data.csv") != True
-        assert validators.csv_no_overwrite_validator(f"{test_path}\\data\\input\\no_file.csv")   == True
+        assert validators.csv_no_overwrite_validator(f"{test_path}\\data\\input\\test_data.csv")  != True
+        assert validators.csv_no_overwrite_validator(f"{test_path}\\data\\input\\not_a_file.csv") == True
 
     def test_path_validator():
         assert validators.prnt_path_validator(f"{test_path}\\data\\input\\")      == True
