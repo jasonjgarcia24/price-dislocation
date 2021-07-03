@@ -207,7 +207,7 @@ def save_qualifying_loans(qualifying_loans):
         {
             "type":        "rawselect",
             "name":        "save_where",
-            "message":     "Where do you want to save your qualifying bank loans?",
+            "message":     "Where do you want to save your qualifying bank loans (.csv)?",
             "choices":     choices,
             "instruction": "(select '1' for default)",
             "when":        lambda x: x["save_question"],
@@ -216,7 +216,7 @@ def save_qualifying_loans(qualifying_loans):
             "type":     "path",
             # Intentionally overwrites result from previous question.
             "name":     "save_where",
-            "message":  "Where do you want to save your qualifying bank loans?",
+            "message":  "Where do you want to save your qualifying bank loans (.csv)?",
             "when"   :  lambda x: True if x["save_question"] and x["save_where"] == choices[-1] else False,
             "validate": csv_ext_validator,
         },
@@ -232,7 +232,7 @@ def save_qualifying_loans(qualifying_loans):
         {
             "type":     "path",
             "name":     "save_where",
-            "message":  "Where do you want to save your qualifying bank loans? (Enter a unique filename)",
+            "message":  "Where do you want to save your qualifying bank loans (.csv)? (Enter a unique filename)",
             "validate": csv_no_overwrite_validator,
         },
     ]
