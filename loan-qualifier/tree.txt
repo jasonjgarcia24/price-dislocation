@@ -4,12 +4,11 @@
 │   └── daily_rate_sheet.csv
 ├── img
 │   ├── appy_terminal_run_input.png
-│   ├── appy_terminal_run_input_quit.png     
+│   ├── appy_terminal_run_input_quit.png
 │   ├── appy_terminal_run_output.png
 │   ├── project_tree.png
 │   └── pytest_unit_test_20210703_debad13.png
 ├── qualifier
-│   ├── .DS_Store
 │   ├── filters
 │   │   ├── credit_score.py
 │   │   ├── debt_to_income.py
