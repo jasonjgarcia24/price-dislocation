@@ -64,6 +64,8 @@ The layout of essentials for this project is show below.
 <a href="requirements.txt" title="requirements.txt">Requirements List</a>
 ***
 ## Installation Guide<a id="Installation-Guide">
+Simply pull the most recent repo in the 'main' branch to a local repository. Then follow the [usage](#Usage) section for running this tool.<br>
+
 <a href="https://github.com/jasonjgarcia24/fintech-analytics-toolbox" title="github.com/jasonjgarcia24/fintech-analytics-toolbox">fintech-analytics-toolbox</a> distribution in the works...<br>
     
 <center><img src="https://media.giphy.com/media/k7LxZAzC9V70s/giphy.gif" title="pink ice chest is best"/></center>
