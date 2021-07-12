@@ -1,0 +1,11 @@
+.
+├── crypto_arbitrage.ipynb
+├── img
+│   └── project_tree.png
+├── LICENSE
+├── README.md
+├── requirements.txt
+├── Resources
+│   ├── bitstamp.csv
+│   └── coinbase.csv
+└── tree.txt
