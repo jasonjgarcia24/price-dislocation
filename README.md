@@ -1,4 +1,4 @@
-# <a id="Top-of-Page">Welcome to my Price Dislocation Analysis Tool!</a>
+# <a id="Top-of-Page">Welcome to the Price Dislocation Analysis Tool!</a>
 #### An analysis of arbitrage profitability throughout two Bitcoin exchanges.
 ***
 ## <a id="Contents">Cotents</a>
@@ -14,15 +14,14 @@
 This project models automated price dislocation calculations to identify arbitrage oppotunities between two Bitcoin exchanges.
 
 #### A summary of what's under the hood:
-Using the Jupyter notebook, this tool sorts through historical trade data for Bitcoin on two exchanges: Bitstamp and Coinbase. By applying three phases of financial analysis, the tool will determine if any arbitrage opportunities exist for Bitcoin. The three phase include:
+Using Jupyter notebook, this tool sorts through historical trade data for Bitcoin on two exchanges: Bitstamp and Coinbase. By applying three phases of financial analysis, the tool will determine if any arbitrage opportunities exist for Bitcoin. The three phase include:
 1. Collect the data.
 2. Prepare the data.
 3. Analyze the data.
 
 #### Methods for identifying arbitrage opportunities:
-Given this combination of provided and derived financials, we then determine the most suitable loans available by filtering on the following:
-
-1. Measure the arbitrage spread between the two exchanges by subtracting the lower-priced exchange from the higher-priced one. Then use a conditional statement to generate the summary statistics for each arbitrage spread, where the spread is greater than zero.
+The following is a generalized summary of this tool's functions for identifying arbitrage opportunities:
+1. Measure the arbitrage spread between the two exchanges by subtracting the lower-priced exchange from the higher-priced one. Then generate the summary statistics for each arbitrage spread, where the spread is greater than zero.
 2. Calculate the spread returns by dividing the instances that have a positive arbitrage spread (that is, a spread greater than zero) by the price of Bitcoin from the exchange we’re buying on (that is, the lower-priced exchange).
 3. Determine the number of times the trades with positive returns exceed the 1% minimum threshold that you need to cover your costs.
 4. Generate the summary statistics of the spread returns that are greater than 1%.
@@ -31,9 +30,6 @@ Given this combination of provided and derived financials, we then determine the
 6. Generate the summary statistics and plot the results.
 7. Calculate the potential arbitrage profits that can be made on each day.
 8. Using the cumsum function, plot the cumulative sum.
-
-#### Unit testing:
-None required.<br>
     
 #### Project layout:
 The layout of essentials for this project is show below.
@@ -47,13 +43,12 @@ The layout of essentials for this project is show below.
 <a href="requirements.txt" title="requirements.txt">Requirements List</a>
 ***
 ## Installation Guide<a id="Installation-Guide">
-<a href="https://github.com/jasonjgarcia24/price-dislocation" title="github.com/jasonjgarcia24/price-dislocation">price-dislocation</a> distribution in the works...<br>
-    
-<center><img src="https://media.giphy.com/media/k7LxZAzC9V70s/giphy.gif" title="pink ice chest is best"/></center>
+To install <a href="https://github.com/jasonjgarcia24/price-dislocation" title="github.com/jasonjgarcia24/price-dislocation">price-dislocation</a>, type <code>git clone https://github.com/jasonjgarcia24/price-dislocation.git</code> into bash in your prefered local directory.<br><br>
+Alternatively, you can navigate to the same address (<code>https://github.com/jasonjgarcia24/price-dislocation.git</code>) and download the full <code>main</code> branch's contents as a zip file to your prefered local directory.<br>
 
 ***
 ## Usage<a id="Usage">
-Observe price-dislocation with `crypto_arbitrage.ipynb`. No input variables are required in viewing the price-dislocation.<br>
+Observe price-dislocation with <code>crypto_arbitrage.ipynb</code>. No input variables are required.<br>
 
 ***
 ## Contributors<a id="Contributors">
