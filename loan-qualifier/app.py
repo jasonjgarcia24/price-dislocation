@@ -96,41 +96,40 @@ def get_applicant_info():
         loan (float): The total loan amount applied for.
         home_value (float): The estimated home value.
     """
-
     questions = [
         {
             "type":    "text",
             "name":    "credit_score",
             "message": "What's your credit score?",
-            "validate": lambda x: True if x.isnumeric() and 0 <= int(x) <= 850 else "Please enter a positive number between 0 and 850.",
+            "validate": lambda x: True if x.isnumeric() and 0 <= int(x) <= 850 else "Please enter a positive number between 0 and 850 (whole number only).",
             "filter":   lambda x: int(x),
         },
         {
             "type":    "text",
             "name":    "debt",
             "message": "What's your current amount of monthly debt?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number.",
+            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number (whole number only).",
             "filter":   lambda x: float(x),
         },
         {
             "type":    "text",
             "name":    "income",
             "message": "What's your total monthly income?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number.",
+            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number (whole number only).",
             "filter":   lambda x: float(x),
         },
         {
             "type":    "text",
             "name":    "loan_amount",
             "message": "What's your desired loan amount?",
-            "validate": lambda x: True if x.isnumeric() and int(x) != 0 else "Please enter a positive non-zero number.",
+            "validate": lambda x: True if x.isnumeric() and int(x) != 0 else "Please enter a positive non-zero number (whole number only).",
             "filter":   lambda x: float(x),
         },
         {
             "type":    "text",
             "name":    "home_value",
             "message": "What's your home value?",
-            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number.",
+            "validate": lambda x: True if x.isnumeric() else "Please enter a positive number (whole number only).",
             "filter":   lambda x: float(x),
         },
     ]
